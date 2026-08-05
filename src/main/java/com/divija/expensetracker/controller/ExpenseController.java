@@ -22,6 +22,9 @@ public class ExpenseController {
     // Controller --> Service --> Repository --> Hibernate --> MySQL.
     @PostMapping("/expenses")   //POST
     public Expense addExpense(@RequestBody Expense expense) {
+        /* Java understands objects, not JSON. So Spring Boot has to convert this JSON into java object. 
+           Who tells Spring to do that conversion?
+                           👉 @RequestBody                */
         return expenseService.saveExpense(expense);
     }
 
