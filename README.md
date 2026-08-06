@@ -1,57 +1,62 @@
 # 💰 Expense Tracker REST API
 
-A RESTful Expense Tracker API built using **Spring Boot**, **Spring Data JPA**, **Hibernate**, and **MySQL**. This project allows users to manage their daily expenses through REST APIs and demonstrates a clean layered architecture following industry best practices.
+A RESTful Expense Tracker API built using **Spring Boot**, **Spring Data JPA**, **Hibernate**, and **MySQL**. This project enables users to manage their daily expenses through well-designed REST APIs while following clean architecture principles and industry best practices.
+
+The application demonstrates concepts such as layered architecture, DTO pattern, validation, exception handling, and interactive API documentation using Swagger.
 
 ---
 
-## 🚀 Features
+# 🚀 Features
 
-- ➕ Add a new expense
-- 📋 Retrieve all expenses
-- 🗄️ Automatic table creation using Hibernate
-- 🔗 MySQL database integration
-- 🏗️ Layered Architecture (Controller → Service → Repository)
-- 🧪 API testing using Postman
-
-> 🚧 Upcoming Features
->
-> - Get Expense by ID
-> - Update Expense
-> - Delete Expense
-> - Input Validation
-> - Global Exception Handling
-> - Swagger API Documentation
-> - DTO Pattern
-> - Logging
+* ➕ Create a new expense
+* 📋 Retrieve all expenses
+* 🔍 Retrieve an expense by ID
+* 📝 Update an existing expense
+* ❌ Delete an expense
+* 🏷️ Search expenses by category
+* 📌 Search expenses by title
+* 📅 Search expenses by date
+* ✅ Input validation using Bean Validation
+* 🚨 Global exception handling with custom exceptions
+* 🔄 DTO pattern with Mapper for clean API responses
+* 📖 Interactive API documentation using Swagger UI
+* 🗄️ Automatic table creation using Hibernate
+* 🔗 MySQL database integration
+* 🏗️ Clean layered architecture (Controller → Service → Repository)
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- Hibernate
-- MySQL
-- Maven
-- Postman
-- Git & GitHub
-- VS Code
+* Java 21
+* Spring Boot
+* Spring Data JPA
+* Hibernate
+* MySQL
+* Maven
+* Swagger / OpenAPI
+* Postman
+* Git & GitHub
+* VS Code
 
 ---
 
-## 📁 Project Structure
+# 📁 Project Structure
 
-```
+```text
 src
 └── main
     ├── java
     │   └── com.divija.expensetracker
+    │       ├── config
     │       ├── controller
+    │       ├── dto
     │       ├── entity
+    │       ├── exception
+    │       ├── mapper
     │       ├── repository
     │       ├── service
-    │       └── ExpenseTrackerApiApplication.java
+    │       └── ExpenseTrackerApplication.java
     │
     └── resources
         └── application.properties
@@ -59,99 +64,88 @@ src
 
 ---
 
-## 🏛️ Architecture
+# 🏛️ Architecture
 
-```
-                HTTP Request
-                      │
-                      ▼
-             ExpenseController
-                      │
-                      ▼
-              ExpenseService
-                      │
-                      ▼
-            ExpenseRepository
-                      │
-                      ▼
-                 Hibernate
-                      │
-                      ▼
-                    MySQL
+```text
+                 HTTP Request
+                       │
+                       ▼
+               ExpenseDTO (@Valid)
+                       │
+                       ▼
+                ExpenseController
+                       │
+                       ▼
+                 ExpenseMapper
+                 DTO ↔ Entity
+                       │
+                       ▼
+                 ExpenseService
+                Business Logic
+                       │
+                       ▼
+              ExpenseRepository
+                       │
+                       ▼
+                  Hibernate
+                       │
+                       ▼
+                     MySQL
 ```
 
 ---
 
-## ⚙️ Database Configuration
+# ⚙️ Database Configuration
 
-Create a MySQL database:
+Create the database:
 
 ```sql
 CREATE DATABASE expense_tracker;
 ```
 
-Configure the following in `application.properties`:
+Configure your `application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/expense_tracker
 spring.datasource.username=root
 spring.datasource.password=YOUR_PASSWORD
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 ```
 
-> Replace `YOUR_PASSWORD` with your local MySQL password.
+> Replace `YOUR_PASSWORD` with your own MySQL password before running the project.
 
 ---
 
-## 📌 API Endpoints
+# 📌 API Endpoints
 
-### Create Expense
-
-**POST**
-
-```
-/expenses
-```
-
-Sample Request
-
-```json
-{
-    "title": "Pizza",
-    "amount": 450,
-    "category": "Food",
-    "date": "2026-08-05",
-    "description": "Dinner with friends"
-}
-```
+| Method | Endpoint                        | Description            |
+| ------ | ------------------------------- | ---------------------- |
+| POST   | `/expenses`                     | Create a new expense   |
+| GET    | `/expenses`                     | Retrieve all expenses  |
+| GET    | `/expenses/{id}`                | Retrieve expense by ID |
+| PUT    | `/expenses/{id}`                | Update an expense      |
+| DELETE | `/expenses/{id}`                | Delete an expense      |
+| GET    | `/expenses/category/{category}` | Search by category     |
+| GET    | `/expenses/title/{title}`       | Search by title        |
+| GET    | `/expenses/date/{date}`         | Search by date         |
 
 ---
 
-### Get All Expenses
+# 📖 Swagger API Documentation
 
-**GET**
+Once the application is running, open:
 
+```text
+http://localhost:8081/swagger-ui/index.html
 ```
-/expenses
-```
 
-Sample Response
-
-```json
-[
-  {
-    "id": 1,
-    "title": "Pizza",
-    "amount": 450.0,
-    "category": "Food",
-    "date": "2026-08-05",
-    "description": "Dinner with friends"
-  }
-]
-```
+Swagger provides interactive API documentation where every endpoint can be tested directly from the browser without using Postman.
 
 ---
 
-## ▶️ Running the Project
+# ▶️ Running the Project
 
 Clone the repository:
 
@@ -159,7 +153,7 @@ Clone the repository:
 git clone https://github.com/your-username/Expense-Tracker-REST-API.git
 ```
 
-Navigate to the project directory:
+Navigate into the project:
 
 ```bash
 cd Expense-Tracker-REST-API
@@ -171,53 +165,61 @@ Run the application:
 ./mvnw spring-boot:run
 ```
 
-Or simply run the main class from your IDE.
+or run the main application class from your IDE.
 
 ---
 
-## 📚 Concepts Practiced
+# 📚 Concepts Practiced
 
-- Spring Boot
-- REST APIs
-- Layered Architecture
-- Dependency Injection
-- Spring Data JPA
-- Hibernate ORM
-- MySQL Integration
-- Constructor Injection
-- Maven
-- Git & GitHub
-- Postman API Testing
-
----
-
-## 🎯 Project Status
-
-| Feature | Status |
-|----------|--------|
-| Spring Boot Setup | ✅ |
-| MySQL Integration | ✅ |
-| Expense Entity | ✅ |
-| Repository Layer | ✅ |
-| Service Layer | ✅ |
-| Controller Layer | ✅ |
-| POST API | ✅ |
-| GET All API | ✅ |
-| GET by ID | 🚧 |
-| UPDATE API | 🚧 |
-| DELETE API | 🚧 |
-| Validation | 🚧 |
-| Exception Handling | 🚧 |
-| Swagger | 🚧 |
-| DTO Pattern | 🚧 |
+* Spring Boot
+* RESTful API Development
+* Layered Architecture
+* Dependency Injection
+* Spring Data JPA
+* Hibernate ORM
+* MySQL Integration
+* Bean Validation
+* Global Exception Handling
+* DTO Pattern
+* Object Mapping
+* Java Streams
+* ResponseEntity
+* Swagger / OpenAPI Documentation
+* Maven
+* Git & GitHub
 
 ---
 
-## 👩‍💻 Author
+# 🎯 Project Status
+
+| Feature                   | Status     |
+| ------------------------- | ---------- |
+| Spring Boot Setup         | ✅          |
+| MySQL Integration         | ✅          |
+| Layered Architecture      | ✅          |
+| Repository Layer          | ✅          |
+| Service Layer             | ✅          |
+| Controller Layer          | ✅          |
+| CRUD Operations           | ✅          |
+| Search by Category        | ✅          |
+| Search by Title           | ✅          |
+| Search by Date            | ✅          |
+| Bean Validation           | ✅          |
+| Global Exception Handling | ✅          |
+| DTO Pattern               | ✅          |
+| Object Mapper             | ✅          |
+| Swagger Documentation     | ✅          |
+| Pagination                | 🚧 Planned |
+| Sorting                   | 🚧 Planned |
+
+---
+
+# 👩‍💻 Author
 
 **Divija P**
 
-Built as part of my Spring Boot backend learning journey and interview preparation.
+Built as part of my Spring Boot backend learning journey to strengthen my understanding of REST API development, Spring Boot architecture, and backend engineering concepts while preparing for technical interviews.
 
 ---
+
 ⭐ If you found this project helpful, feel free to star the repository!
