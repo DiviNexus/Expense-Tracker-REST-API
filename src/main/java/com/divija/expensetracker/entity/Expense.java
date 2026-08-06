@@ -6,6 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 // This entire thing below is a Java Bean!!!
 
@@ -16,10 +19,20 @@ public class Expense {
     private Long id;    //Use Long over int because JPA entities use Wrapper classes (objects) like Long so they can be "null" before persistence (before stored in DB).
 
     // Other things an Expense should include (data object model designing) :-
+
+    @NotBlank   //Title shouldn't be left Blank.....
     private String title;
+
+    @Positive   //Amount should always be Positive. Negative amounts and 0/- are invalid!
     private Double amount;
+
+    @NotBlank
     private String category;
+
+    @NotNull
     private LocalDate date;
+
+    @NotBlank
     private String description;
 
     // No-argument Constructor
